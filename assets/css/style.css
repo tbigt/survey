@@ -3,3 +3,11 @@
 	padding: 0;
 	list-style-type: none;
 }
+
+/*
+bootstrap overrides / additions
+*/
+label small {
+  font-weight: 300;
+  font-style: italic;
+}
