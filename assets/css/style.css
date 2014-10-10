@@ -10,4 +10,9 @@ bootstrap overrides / additions
 label small {
   font-weight: 300;
   font-style: italic;
+  color: #aaa;
+}
+.checkbox label, 
+.radio label {
+  padding-left: 20px;
 }

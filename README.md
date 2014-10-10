@@ -69,7 +69,7 @@ EXECUTE stmt;
 DEALLOCATE PREPARE stmt;
 ```
 * test questions
-```
+```mysql
 # multiple radio fields (question_type = 0)
 INSERT INTO survey.s1_questions 
 (question_text, question_type, required, helper_text)

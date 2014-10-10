@@ -33,13 +33,14 @@ class Main extends CI_Controller {
 		if(!empty($surveyPrefix)) {
 
 			$this->load->model("survey_model");
-			print_r($this->survey_model->getSurveyData($surveyPrefix));
+			$data["questions"] = $this->survey_model->getSurveyData($surveyPrefix);
+			($data["questions"] === null) ? $data["valid_survey"] = false: "";
 		}
 
 		$this->load->helper('url');
 		$this->load->view('templates/survey/header');
 		$this->load->view('templates/survey/nav');
-		$this->load->view('templates/survey/survey');
+		$this->load->view('templates/survey/survey', $data);
 		$this->load->view('templates/survey/footer');
 	}
 }

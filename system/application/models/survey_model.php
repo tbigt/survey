@@ -17,7 +17,7 @@ class Survey_Model extends CI_Model {
 
     if($this->db->table_exists($surveyPrefix . "_questions")) {
 
-      $this->db->select("*")->from($surveyPrefix . "_questions");
+      $this->db->select("*")->from($surveyPrefix . "_questions")->order_by("question_type", "asc");
       $question_query = $this->db->get();
 
       // determine if any questions have options
