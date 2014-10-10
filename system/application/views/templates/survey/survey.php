@@ -4,7 +4,7 @@
         <h2 class="text-center">
           Survey Title
           <small class="show">
-            Quick Surevy Blurb
+            Quick Survey Blurb
           </small>
         </h2>
         <form role="form">

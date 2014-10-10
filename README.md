@@ -10,12 +10,12 @@ USE survey;
 CREATE TABLE IF NOT EXISTS example_questions (
   id int(11) NOT NULL AUTO_INCREMENT,
   question_text varchar(200) NOT NULL,
-  question_type int(2) NOT NULL DEFAULT 0,
-  required tinyint(1) NOT NULL DEFAULT 0,
+  question_type int(2) DEFAULT 0,
+  required tinyint(1) DEFAULT 0,
   helper_text varchar(200) DEFAULT NULL,
   created timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY(id)
-)
+);
 
 # create example options table
 CREATE TABLE IF NOT EXISTS example_options (
@@ -24,7 +24,7 @@ CREATE TABLE IF NOT EXISTS example_options (
   option_text varchar(200) NOT NULL,
   created timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY(id)
-)
+);
 
 # create example users table
 CREATE TABLE IF NOT EXISTS example_users (
@@ -32,7 +32,7 @@ CREATE TABLE IF NOT EXISTS example_users (
   email varchar(200) NOT NULL,
   created timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY(id)
-)
+);
 
 # create example responses table
 CREATE TABLE IF NOT EXISTS example_responses (
@@ -43,7 +43,7 @@ CREATE TABLE IF NOT EXISTS example_responses (
   text varchar(1000) DEFAULT NULL,
   created timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY(id)
-)
+);
 ```
 * create survey tables (change the table prefix for a new survey):
 ```mysql
@@ -67,4 +67,42 @@ DEALLOCATE PREPARE stmt;
 PREPARE stmt FROM @U_QUERY;
 EXECUTE stmt;
 DEALLOCATE PREPARE stmt;
+```
+* test questions
+```
+# multiple radio fields (question_type = 0)
+INSERT INTO survey.s1_questions 
+(question_text, question_type, required, helper_text)
+VALUES
+("What is your favorite choice?", 0, 1, "Some Helper Text");
+
+# options for radio fields
+INSERT INTO survey.s1_options 
+(question_id, option_text)
+VALUES
+(5, "That"); # change 5 to corresponding radio field id
+INSERT INTO survey.s1_options 
+(question_id, option_text)
+VALUES
+(5, "This"); # change 5 to corresponding radio field id
+
+# input fields (question_type = 1)
+INSERT INTO survey.s1_questions 
+(question_text, question_type, required, helper_text)
+VALUES
+("Input Question 1", 1, 1, "");
+INSERT INTO survey.s1_questions 
+(question_text, question_type, required, helper_text)
+VALUES
+("Input Question 2", 1, 0, "");
+
+# text fields (question_type = 2)
+INSERT INTO survey.s1_questions 
+(question_text, question_type, required, helper_text)
+VALUES
+("Text Field 1", 2, 1, "");
+INSERT INTO survey.s1_questions 
+(question_text, question_type, required, helper_text)
+VALUES
+("Text Field 2", 2, 1, "");
 ```

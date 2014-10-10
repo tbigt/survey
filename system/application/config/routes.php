@@ -40,6 +40,7 @@
 
 $route['default_controller'] = "main";
 $route['404_override'] = '';
+$route['payment/(:any)'] = "main/index/$1";
 
 
 /* End of file routes.php */

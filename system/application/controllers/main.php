@@ -13,8 +13,29 @@ class Main extends CI_Controller {
 	 * Since this controller is set as the default controller in 
 	 * config/routes.php, it's displayed at http://example.com/
 	 */
-	public function index()
+	public function index($survey = "")
 	{
+
+		$surveyPrefix = "";
+		$data["valid_survey"] = true;
+		switch($survey) {
+			case "survey_one":
+				$surveyPrefix = "s1";
+				break;
+			case "survey_two":
+				$surveyPrefix = "s2";
+				break;
+			default:
+				$data["valid_survey"] = false;
+				break;
+		}
+
+		if(!empty($surveyPrefix)) {
+
+			$this->load->model("survey_model");
+			print_r($this->survey_model->getSurveyData($surveyPrefix));
+		}
+
 		$this->load->helper('url');
 		$this->load->view('templates/survey/header');
 		$this->load->view('templates/survey/nav');
