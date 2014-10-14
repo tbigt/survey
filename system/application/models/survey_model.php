@@ -66,8 +66,9 @@ class Survey_Model extends CI_Model {
 
         if(isset($_POST["question_" . $question->id]) && !empty($_POST["question_" . $question->id])) {
 
-          // question has a response
-          $responses[($question->id)] = $_POST["question_" . $question->id];
+          // question has a response, set the response attribute & add object to final responses
+          $question->response = $_POST["question_" . $question->id];
+          $responses[($question->id)] = $question;
         }
         else {
 
@@ -83,11 +84,68 @@ class Survey_Model extends CI_Model {
       if(sizeof($errors) > 0) 
         return array("errors" => $errors);
       else
-        return array("responses" => $responses);
+        return array("success" => $this->submitData($surveyPrefix, $responses));
     }
 
     return null;
   } // end function - validate submission
+
+  private function submitData($surveyPrefix, $responses) {
+
+    // check if user exists
+    $this->db->select("*")->from($surveyPrefix . "_users")->where("email", $responses["email"]);
+    $emailQuery = $this->db->get();
+    $userId = 0;
+    if($emailQuery->num_rows() > 0) {
+
+      // get user's id
+      $userId = $emailQuery->row()->id;
+    }
+    else {
+
+      // add user
+      $this->db->insert($surveyPrefix . "_users", array("email" => $responses["email"]));
+
+      // get user's id
+      $this->db->select("*")->from($surveyPrefix . "_users")->where("email", $responses["email"]);
+      $emailQuery = $this->db->get();
+      $userId = $emailQuery->row()->id;
+    }
+
+    // prepare insert responses
+    $insert_data = array();
+
+    foreach ($responses as $response) {
+      
+      if($response == $responses["email"]) continue;
+
+      // generate response data
+      $response_data = array();
+      $response_data["user_id"] = $userId;
+      $response_data["question_id"] = $response->id;
+
+      // check if the question was multiple choice
+      if($response->question_type == 0) {
+
+        // associate proper option id & ignore text field
+        $response_data["option_id"] = $response->response;
+        $response_data["text"] = null;
+      }
+      // check if the question was simple input or text input
+      elseif($response->question_type == 1 || $response->question_type == 2 ) {
+
+        // set proper text & ignore option id
+        $response_data["option_id"] = 0;
+        $response_data["text"] = $response->response;
+      }
+
+      array_push($insert_data, $response_data);
+    }
+
+    $this->db->insert_batch($surveyPrefix . "_responses", $insert_data);
+
+    return null;
+  }
 }
 
 ?>

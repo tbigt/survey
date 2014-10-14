@@ -57,7 +57,7 @@ class Main extends CI_Controller {
     }
 
     $this->load->helper('url');
-    $this->load->view('templates/survey/header');
+    $this->load->view('templates/survey/header', $data);
     $this->load->view('templates/survey/nav');
     $this->load->view('templates/survey/survey', $data);
     $this->load->view('templates/survey/footer');
