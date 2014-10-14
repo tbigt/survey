@@ -78,6 +78,12 @@ class Survey_Model extends CI_Model {
             // error - question is required but is blank/does not exist
             array_push($errors, "'" . $question->question_text . "' is required.");
           }
+          elseif(isset($_POST["question_" . $question->id]) ) {
+
+            // question has no response, but is not required
+            $question->response = $_POST["question_" . $question->id];
+            $responses[($question->id)] = null;
+          }
         }
       }
 
@@ -90,6 +96,11 @@ class Survey_Model extends CI_Model {
     return null;
   } // end function - validate submission
 
+  /*
+  submit the data to the database
+  param - surveyPrefix of table - example 's1'
+  param - responses of questions - question object including responses
+  */
   private function submitData($surveyPrefix, $responses) {
 
     // check if user exists

@@ -22,12 +22,12 @@
               </ul>
             </div>
           <?php endif; ?>
-          <form role="form" method="post">
+          <form role="form" method="post" class="survey-form clearfix">
             <div class="form-group">
               <label for="email_field">
                 Email Address <small>(Required)</small>
               </label>
-              <input 
+              <input
                 type="text"
                 class="form-control"
                 id="email_field"
@@ -90,7 +90,7 @@
                 </div>
               <?php endif; ?>
             <?php endforeach; ?>
-            <button type="submit" class="btn btn-success pull-right">Submit</button>
+            <button type="submit" class="btn btn-lg btn-success pull-right">Submit</button>
           </form>
         <?php elseif(isset($valid_survey) && $valid_survey && !(isset($survey_errors) && $survey_errors)): ?>
           <div class="alert alert-success text-center" role="alert">
