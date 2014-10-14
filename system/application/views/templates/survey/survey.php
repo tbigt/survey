@@ -1,19 +1,33 @@
   <div class="container">
     <div class="row">
       <div class="col-md-12">
-        <?php if($valid_survey): ?>
+        <?php if(isset($valid_survey) && $valid_survey && isset($show_questions) && $show_questions): ?>
           <h2 class="text-center">
-            Survey Title
+            <?php echo ((isset($survey_title)) ? $survey_title : "Untitled"); ?>
             <small class="show">
-              Quick Survey Blurb
+              <?php echo ((isset($survey_subtitle)) ? $survey_subtitle : ""); ?>
             </small>
           </h2>
-          <form role="form">
+          <?php if(isset($survey_errors) && $survey_errors): ?>
+            <div class="alert alert-danger" role="alert">
+              <strong>
+                Error<?php echo ((sizeof($errors) > 1) ? "s" : "" );?>:
+              </strong>
+              <ul>
+                <?php foreach($errors as $error): ?>
+                  <li>
+                    <?php echo $error; ?>
+                  </li>
+                <?php endforeach; ?>
+              </ul>
+            </div>
+          <?php endif; ?>
+          <form role="form" method="post">
             <div class="form-group">
               <label for="email_field">
                 Email Address <small>(Required)</small>
               </label>
-              <input type="email" class="form-control" id="email_field" placeholder="Enter Email Address">
+              <input type="text" class="form-control" id="email_field" name="email_field" placeholder="Enter Email Address">
             </div>
             <?php foreach($questions as $question): ?>
               <?php if($question->question_type == 0): ?>
@@ -26,7 +40,12 @@
                   <?php foreach($question->options as $option): ?>
                     <div class="radio">
                       <label>
-                        <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1">
+                        <input 
+                          type="radio"
+                          name="question_<?php echo $question->id; ?>"
+                          id="question_<?php echo $question->id . "_option" . $option->id; ?>"
+                          value="<?php echo $option->id; ?>"
+                          <?php  ?> >
                         <?php echo $option->option_text; ?>
                       </label>
                     </div>
@@ -35,23 +54,30 @@
               <?php endif; ?>
               <?php if($question->question_type == 1): ?>
                 <div class="form-group">
-                  <label for="email_field">
+                  <label for="question_<?php echo $question->id; ?>">
                     <?php echo $question->question_text . (($question->required) ? " <small>(Required)</small>" : ""); ?>
                   </label>
-                  <input type="email" class="form-control" id="email_field" placeholder="Enter Response">
+                  <input type="text" class="form-control" placeholder="Enter Response" name="question_<?php echo $question->id; ?>" id="question_<?php echo $question->id; ?>" value="">
                 </div>
               <?php endif; ?>
               <?php if($question->question_type == 2): ?>
                 <div class="form-group">
-                  <label for="text_field">
+                  <label for="question_<?php echo $question->id; ?>">
                     <?php echo $question->question_text . (($question->required) ? " <small>(Required)</small>" : ""); ?>
                   </label>
-                  <textarea class="form-control" rows="3" id="text_field" placeholder="Enter Response"></textarea>
+                  <textarea class="form-control" rows="3" placeholder="Enter Response" name="question_<?php echo $question->id; ?>" id="question_<?php echo $question->id; ?>" value=""></textarea>
                 </div>
               <?php endif; ?>
             <?php endforeach; ?>
             <button type="submit" class="btn btn-success pull-right">Submit</button>
           </form>
+        <?php elseif(isset($valid_survey) && $valid_survey && !(isset($survey_errors) && $survey_errors)): ?>
+          <div class="alert alert-success text-center" role="alert">
+            <strong>
+              All Done!
+            </strong>
+              Thank you for completing the survey.
+          </div>
         <?php else: ?>
           <div class="alert alert-danger text-center" role="alert">
             <strong>
