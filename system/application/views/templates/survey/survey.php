@@ -27,7 +27,14 @@
               <label for="email_field">
                 Email Address <small>(Required)</small>
               </label>
-              <input type="text" class="form-control" id="email_field" name="email_field" placeholder="Enter Email Address">
+              <input 
+                type="text"
+                class="form-control"
+                id="email_field"
+                name="email_field"
+                placeholder="Enter Email Address"
+                value="<?php echo ((isset($_POST["email_field"]) && !empty($_POST["email_field"])) ? $_POST["email_field"] : "" ); ?>"
+                autofocus>
             </div>
             <?php foreach($questions as $question): ?>
               <?php if($question->question_type == 0): ?>
@@ -45,7 +52,7 @@
                           name="question_<?php echo $question->id; ?>"
                           id="question_<?php echo $question->id . "_option" . $option->id; ?>"
                           value="<?php echo $option->id; ?>"
-                          <?php  ?> >
+                          <?php echo ((isset($_POST["question_" . $question->id]) && $_POST["question_" . $question->id] == $option->id) ? "checked" : "" ); ?> >
                         <?php echo $option->option_text; ?>
                       </label>
                     </div>
@@ -57,7 +64,13 @@
                   <label for="question_<?php echo $question->id; ?>">
                     <?php echo $question->question_text . (($question->required) ? " <small>(Required)</small>" : ""); ?>
                   </label>
-                  <input type="text" class="form-control" placeholder="Enter Response" name="question_<?php echo $question->id; ?>" id="question_<?php echo $question->id; ?>" value="">
+                  <input 
+                    type="text" 
+                    class="form-control" 
+                    placeholder="Enter Response" 
+                    name="question_<?php echo $question->id; ?>" 
+                    id="question_<?php echo $question->id; ?>" 
+                    value="<?php echo ((isset($_POST["question_" . $question->id]) && !empty($_POST["question_" . $question->id])) ? $_POST["question_" . $question->id] : "" ); ?>">
                 </div>
               <?php endif; ?>
               <?php if($question->question_type == 2): ?>
@@ -65,7 +78,15 @@
                   <label for="question_<?php echo $question->id; ?>">
                     <?php echo $question->question_text . (($question->required) ? " <small>(Required)</small>" : ""); ?>
                   </label>
-                  <textarea class="form-control" rows="3" placeholder="Enter Response" name="question_<?php echo $question->id; ?>" id="question_<?php echo $question->id; ?>" value=""></textarea>
+                  <textarea 
+                    class="form-control"
+                    rows="3"
+                    placeholder="Enter Response"
+                    name="question_<?php echo $question->id; ?>"
+                    id="question_<?php echo $question->id; ?>"
+                    value=""><?php 
+                      echo ((isset($_POST["question_" . $question->id]) && !empty($_POST["question_" . $question->id])) ? $_POST["question_" . $question->id] : "" ); 
+                    ?></textarea>
                 </div>
               <?php endif; ?>
             <?php endforeach; ?>

@@ -55,6 +55,13 @@ class Survey_Model extends CI_Model {
     if($surveyData != null) {
 
       $responses = array();
+      if(isset($_POST["email_field"]) && !empty($_POST["email_field"]) && filter_var($_POST["email_field"], FILTER_VALIDATE_EMAIL)) {
+        $responses["email"] = $_POST["email_field"];
+      }
+      else {
+        array_push($errors, "'Email Address' is required and must be valid.");
+      }
+
       foreach($surveyData as $question) {
 
         if(isset($_POST["question_" . $question->id]) && !empty($_POST["question_" . $question->id])) {
