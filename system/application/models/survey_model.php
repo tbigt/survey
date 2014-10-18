@@ -23,7 +23,7 @@ class Survey_Model extends CI_Model {
       // determine if any questions have options
       foreach($question_query->result() as $question) {
 
-        if($question->question_type == 0) {
+        if($question->question_type == 0 || $question->question_type == 3) {
 
           // get all options for this question
           $this->db->select("*")->from($surveyPrefix . "_options")->where("question_id", $question->id);

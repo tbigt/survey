@@ -89,6 +89,28 @@
                     ?></textarea>
                 </div>
               <?php endif; ?>
+              <?php if($question->question_type == 3): ?>
+                <div class="form-group">
+                  <label>
+                    <?php echo $question->question_text . " <small>" .
+                      ((!empty($question->helper_text)) ? $question->helper_text : "") .
+                      (($question->required) ? " (Required) " : "") . "</small>"; ?>
+                  </label>
+                  <?php foreach($question->options as $option): ?>
+                    <div class="checkbox">
+                      <label>
+                        <input 
+                          type="checkbox"
+                          name="question_<?php echo $question->id; ?>[]"
+                          id="question_<?php echo $question->id . "_option" . $option->id; ?>"
+                          value="<?php echo $option->id; ?>"
+                          <?php echo ((isset($_POST["question_" . $question->id]) && $_POST["question_" . $question->id] == $option->id) ? "checked" : "" ); ?> >
+                        <?php echo $option->option_text; ?>
+                      </label>
+                    </div>
+                  <?php endforeach; ?>
+                </div>
+              <?php endif; ?>
             <?php endforeach; ?>
             <button type="submit" class="btn btn-lg btn-success pull-right">Submit</button>
           </form>

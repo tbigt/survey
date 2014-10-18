@@ -50,7 +50,7 @@ $active_record = TRUE;
 
 $db['default']['hostname'] = 'localhost';
 $db['default']['username'] = 'root'; // change to your MySQL username
-$db['default']['password'] = ''; // change to your MySQL user's password
+$db['default']['password'] = 'root'; // change to your MySQL user's password
 $db['default']['database'] = 'survey';
 $db['default']['dbdriver'] = 'mysqli';
 $db['default']['dbprefix'] = '';

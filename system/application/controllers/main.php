@@ -18,10 +18,10 @@ class Main extends CI_Controller {
 
     switch($survey) {
       // add all of your surveys & configurations here
-      case "survey_one":
-        $surveyPrefix = "s1";
-        $data["survey_title"] = "Basic Survey";
-        $data["survey_subtitle"] = "Please provide all basic information";
+      case "graphic_design":
+        $surveyPrefix = "gd";
+        $data["survey_title"] = "Graphic Design Questionnaire";
+        $data["survey_subtitle"] = "";
         break;
       case "survey_two":
         $surveyPrefix = "s2";
@@ -53,6 +53,7 @@ class Main extends CI_Controller {
     if(!empty($surveyPrefix)) {
 
       $data["questions"] = $this->survey_model->getSurveyData($surveyPrefix);
+      print_r($data["questions"]);
       ($data["questions"] === null) ? $data["valid_survey"] = false: "";
     }
 
