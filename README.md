@@ -34,13 +34,21 @@ CREATE TABLE IF NOT EXISTS example_users (
   PRIMARY KEY(id)
 );
 
+# create example response answers table
+CREATE TABLE IF NOT EXISTS example_response_answers (
+  id int(11) NOT NULL AUTO_INCREMENT,
+  response_id int(11) NOT NULL,
+  question_id int(11) NOT NULL,
+  option_id int(11) NOT NULL DEFAULT 0,
+  text varchar(1000) DEFAULT NULL,
+  created timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY(id)
+);
+
 # create example responses table
 CREATE TABLE IF NOT EXISTS example_responses (
   id int(11) NOT NULL AUTO_INCREMENT,
   user_id int(11) NOT NULL,
-  question_id int(11) NOT NULL,
-  option_id int(11) NOT NULL DEFAULT 0,
-  text varchar(1000) DEFAULT NULL,
   created timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY(id)
 );
@@ -52,8 +60,9 @@ SET @PREFIX = "s1"; # change prefix for each new survey
 
 SET @Q_QUERY = CONCAT('CREATE TABLE IF NOT EXISTS ', @PREFIX, '_questions LIKE example_questions');
 SET @O_QUERY = CONCAT('CREATE TABLE IF NOT EXISTS ', @PREFIX, '_options LIKE example_options');
-SET @R_QUERY = CONCAT('CREATE TABLE IF NOT EXISTS ', @PREFIX, '_responses LIKE example_responses');
+SET @R_QUERY = CONCAT('CREATE TABLE IF NOT EXISTS ', @PREFIX, '_response_answers LIKE example_response_answers');
 SET @U_QUERY = CONCAT('CREATE TABLE IF NOT EXISTS ', @PREFIX, '_users LIKE example_users');
+SET @R2Q_QUERY = CONCAT('CREATE TABLE IF NOT EXISTS ', @PREFIX, '_responses LIKE example_responses');
 
 PREPARE stmt FROM @Q_QUERY;
 EXECUTE stmt;
@@ -65,6 +74,9 @@ PREPARE stmt FROM @R_QUERY;
 EXECUTE stmt;
 DEALLOCATE PREPARE stmt;
 PREPARE stmt FROM @U_QUERY;
+EXECUTE stmt;
+DEALLOCATE PREPARE stmt;
+PREPARE stmt FROM @R2Q_QUERY;
 EXECUTE stmt;
 DEALLOCATE PREPARE stmt;
 ```

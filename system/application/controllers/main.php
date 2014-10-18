@@ -53,7 +53,6 @@ class Main extends CI_Controller {
     if(!empty($surveyPrefix)) {
 
       $data["questions"] = $this->survey_model->getSurveyData($surveyPrefix);
-      print_r($data["questions"]);
       ($data["questions"] === null) ? $data["valid_survey"] = false: "";
     }
 

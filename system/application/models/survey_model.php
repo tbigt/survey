@@ -67,7 +67,12 @@ class Survey_Model extends CI_Model {
         if(isset($_POST["question_" . $question->id]) && !empty($_POST["question_" . $question->id])) {
 
           // question has a response, set the response attribute & add object to final responses
-          $question->response = $_POST["question_" . $question->id];
+          // put all responses in an array (incase of multiple responses for a single question)
+          if(!is_array($_POST["question_" . $question->id]))
+            $question->response = array($_POST["question_" . $question->id]);
+          else
+            $question->response = $_POST["question_" . $question->id];
+
           $responses[($question->id)] = $question;
         }
         else {
@@ -81,8 +86,12 @@ class Survey_Model extends CI_Model {
           elseif(isset($_POST["question_" . $question->id]) ) {
 
             // question has no response, but is not required
-            $question->response = $_POST["question_" . $question->id];
-            $responses[($question->id)] = null;
+            // put all responses in an array (incase of multiple responses for a single question)
+            if(!is_array($_POST["question_" . $question->id]))
+              $question->response = array($_POST["question_" . $question->id]);
+            else
+              $question->response = $_POST["question_" . $question->id];
+            $responses[($question->id)] = $question;
           }
         }
       }
@@ -123,37 +132,57 @@ class Survey_Model extends CI_Model {
       $userId = $emailQuery->row()->id;
     }
 
+    // create a response & retrieve the id
+    $responseId = 0;
+    $this->db->insert($surveyPrefix . "_responses", array("user_id" => $userId));
+    $responseId = $this->db->insert_id();
+
     // prepare insert responses
     $insert_data = array();
-
     foreach ($responses as $response) {
-      
+  
       if($response == $responses["email"]) continue;
 
-      // generate response data
-      $response_data = array();
-      $response_data["user_id"] = $userId;
-      $response_data["question_id"] = $response->id;
+      if(isset($response->response) && $response->response != null) {
+        foreach($response->response as $single_response) {
 
-      // check if the question was multiple choice
-      if($response->question_type == 0) {
+          // generate response data
+          $response_data = array();
+          $response_data["response_id"] = $responseId;
+          $response_data["question_id"] = $response->id;
 
-        // associate proper option id & ignore text field
-        $response_data["option_id"] = $response->response;
-        $response_data["text"] = null;
+          // check if the question was multiple choice
+          if($response->question_type == 0 || $response->question_type == 3) {
+
+            // associate proper option id & ignore text field
+            $response_data["option_id"] = $single_response;
+            $response_data["text"] = null;
+          }
+          // check if the question was simple input or text input
+          elseif($response->question_type == 1 || $response->question_type == 2 ) {
+
+            // set proper text & ignore option id
+            $response_data["option_id"] = 0;
+            $response_data["text"] = $single_response;
+          }
+
+          array_push($insert_data, $response_data);
+        }
       }
-      // check if the question was simple input or text input
-      elseif($response->question_type == 1 || $response->question_type == 2 ) {
-
-        // set proper text & ignore option id
+      else {
+        echo "response: ";
+print_r($response);
+        // generate response data
+        $response_data = array();
+        $response_data["response_id"] = $responseId;
+        $response_data["question_id"] = $response->id;
         $response_data["option_id"] = 0;
-        $response_data["text"] = $response->response;
+        $response_data["text"] = null;
+        array_push($insert_data, $response_data);
       }
-
-      array_push($insert_data, $response_data);
     }
 
-    $this->db->insert_batch($surveyPrefix . "_responses", $insert_data);
+    $this->db->insert_batch($surveyPrefix . "_response_answers", $insert_data);
 
     return null;
   }
