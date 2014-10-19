@@ -7,6 +7,31 @@ class Survey_Model extends CI_Model {
   }
 
   /*
+  get the survey information provided 
+  with the survey slug from the url
+  */
+  function getSurveyPrefix($slug) {
+
+    // get the survey prefix from the url slug
+    $this->db->select("*")->from("survey_list")->where("slug", $slug)->where("enabled", 1);
+    $query = $this->db->get();
+
+    if($query->num_rows() > 0)
+      return $query->row();
+    else
+      return null;
+  }
+
+  /*
+  get all survey's available
+  */
+  function getActiveSurveys() {
+
+    $this->db->select("*")->from("survey_list")->where("enabled", 1);
+    return $this->db->get()->result();
+  }
+
+  /*
   get all survey data for the provided survey prefix
   param - surveyPrefix of table - example 's1'
   return - null if invalid survey prefix or all question 

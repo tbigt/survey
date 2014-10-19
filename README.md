@@ -1,10 +1,30 @@
 ## A Generic PHP Survey
 
-#### MySQL Query to Create Database & Table
+#### MySQL Query to Create Database & Tables
 * run first time only:
 ```mysql
 CREATE DATABASE survey;
 USE survey;
+
+# create admin user table
+CREATE TABLE IF NOT EXISTS admin_users (
+  id int(11) NOT NULL AUTO_INCREMENT,
+  password varchar(32) NOT NULL,
+  email varchar(200) NOT NULL,
+  created timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY(id)
+)
+
+# create master survey list table
+CREATE TABLE IF NOT EXISTS survey_list (
+  id int(11) NOT NULL AUTO_INCREMENT,
+  title varchar(100) NOT NULL,
+  subtitle varchar(100) NOT NULL,
+  prefix varchar(20) NOT NULL,
+  slug varchar(20) NOT NULL,
+  enabled tinyint(1) DEFAULT 0,
+  PRIMARY KEY(id)
+)
 
 # create example questions table
 CREATE TABLE IF NOT EXISTS example_questions (
@@ -80,8 +100,14 @@ PREPARE stmt FROM @R2Q_QUERY;
 EXECUTE stmt;
 DEALLOCATE PREPARE stmt;
 ```
-* test questions
+* test questions & data
 ```mysql
+# insert survery information into survey list
+INSERT INTO survey.survey_list 
+(title, subtitle, prefix, slug)
+VALUES
+("Sample Survey", "Please provide all basic information", "s1", "survey_one");
+
 # multiple radio fields (question_type = 0)
 INSERT INTO survey.s1_questions 
 (question_text, question_type, required, helper_text)

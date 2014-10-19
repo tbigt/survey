@@ -38,9 +38,9 @@
 |
 */
 
-$route['default_controller'] = "main";
+$route['default_controller'] = "survey";
 $route['404_override'] = '';
-$route['payment/(:any)'] = "main/index/$1";
+$route['questions/(:any)'] = "survey/questions/$1";
 
 
 /* End of file routes.php */
