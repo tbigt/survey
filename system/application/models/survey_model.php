@@ -195,8 +195,7 @@ class Survey_Model extends CI_Model {
         }
       }
       else {
-        echo "response: ";
-print_r($response);
+
         // generate response data
         $response_data = array();
         $response_data["response_id"] = $responseId;

@@ -39,6 +39,7 @@
 */
 
 $route['default_controller'] = "survey";
+$route['admin'] = "admin/login";
 $route['404_override'] = '';
 $route['questions/(:any)'] = "survey/questions/$1";
 

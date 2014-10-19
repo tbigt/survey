@@ -13,7 +13,7 @@ CREATE TABLE IF NOT EXISTS admin_users (
   email varchar(200) NOT NULL,
   created timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY(id)
-)
+);
 
 # create master survey list table
 CREATE TABLE IF NOT EXISTS survey_list (
@@ -24,7 +24,7 @@ CREATE TABLE IF NOT EXISTS survey_list (
   slug varchar(20) NOT NULL,
   enabled tinyint(1) DEFAULT 0,
   PRIMARY KEY(id)
-)
+);
 
 # create example questions table
 CREATE TABLE IF NOT EXISTS example_questions (
