@@ -86,6 +86,60 @@ class Survey_Model extends CI_Model {
   }
 
   /*
+  get all response information
+  param - surveySlug - the slug for a valid survey
+  param - responseId - the id for the specific response
+  */
+  function getResponseData($surveySlug, $responseId) {
+
+    // check if the survey slug is valid
+    $this->db->select("*")->from("survey_list")->where("slug", $surveySlug);
+    $query = $this->db->get();
+    if($query->num_rows() > 0) {
+
+      // check if the id is valid
+      $prefix = $query->row()->prefix;
+      $this->db->select("*")->from($prefix . "_responses")->where("id", $responseId);
+      $responseData = $this->db->get();
+      if($responseData->num_rows() > 0 ) {
+
+        $responseInfo = array();
+        $this->db->select("email")->from("survey_users")->where("id", $responseData->row()->user_id);
+        $responseInfo["email"] = $this->db->get()->row()->email;
+        $result = array();
+
+        // get all questions
+        $this->db->select("*")->from($prefix . "_questions");
+        $questions = $this->db->get()->result();
+
+        foreach($questions as $question) {
+          $result[$question->id] = array("question" => $question->question_text);
+        }
+
+        // get all response information
+        $this->db->select("*")->from($prefix . "_response_answers")->where("response_id", $responseId);
+        $responses = $this->db->get()->result();
+
+        foreach($responses as $response) {
+
+          if(!isset($result[$response->question_id]["response"]) || !is_array($result[$response->question_id]["response"])) $result[$response->question_id]["response"] = array();
+          if($response->option_id == 0) {
+            array_push($result[$response->question_id]["response"], $response->text);
+          }
+          else {
+            $this->db->select("*")->from($prefix . "_options")->where("id", $response->option_id);
+            array_push($result[$response->question_id]["response"], $this->db->get()->row()->option_text);
+          }
+        }
+
+        $responseInfo["responses"] = $result;
+        return $responseInfo;
+      }
+    }
+    return null;
+  }
+
+  /*
   get all survey data for the provided survey prefix
   param - surveyPrefix of table - example 's1'
   return - null if invalid survey prefix or all question 

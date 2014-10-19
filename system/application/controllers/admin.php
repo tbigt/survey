@@ -86,4 +86,23 @@ class Admin extends CI_Controller {
     $this->load->view('templates/admin/dashboard', $data);
     $this->load->view('templates/admin/footer');
   }
+
+  public function response($surveySlug = "", $responseId = 0) {
+
+    $this->requiresLogin();
+    $data["user"] = array("email" => $this->session->userdata("email"));
+
+    if(!empty($surveySlug) && $responseId > 0) {
+
+      $data["responses"] = $this->survey_model->getResponseData($surveySlug, $responseId);
+      $data["valid_response"] = ($data["responses"] !== null);
+    }
+    else {
+      $data["valid_response"] = false;
+    }
+    $this->load->view('templates/admin/header');
+    $this->load->view('templates/admin/nav', $data);
+    $this->load->view('templates/admin/response', $data);
+    $this->load->view('templates/admin/footer');
+  }
 }

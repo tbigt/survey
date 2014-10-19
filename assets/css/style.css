@@ -11,6 +11,9 @@ body {
   /* Margin bottom by footer height */
   margin-bottom: 60px;
 }
+ul {
+  margin-bottom: 0;
+}
 
 /*
 bootstrap overrides / additions
@@ -36,8 +39,9 @@ footer p {
   margin: 0;
   line-height: 20px;
 }
-.full-bg { 
-  background: url("../images/general/cliche_stock_photo.jpg") no-repeat center center fixed;
+.bg-full {
+  background-repeat: no-repeat 
+  background-position: center center;
   background-size: cover;
   background-color: transparent;
   position: absolute;
@@ -45,6 +49,9 @@ footer p {
   bottom: 0;
   right: 0;
   left: 0;
+}
+.bg-full .bg-1 {
+  background: url("../images/general/cliche_stock_photo.jpg");
 }
 .login-pane {
   margin-top: 100px;
