@@ -32,6 +32,60 @@ class Survey_Model extends CI_Model {
   }
 
   /*
+  merge two arrays by the 'created' property in contained objects
+  */
+  function mergeByCreateProperty($arrayOne, $arrayTwo) {
+
+    if(empty($arrayOne)) return $arrayTwo;
+    if(empty($arrayTwo)) return $arrayOne;
+
+    $result = array();
+    $length = sizeof($arrayOne) + sizeof($arrayTwo);
+    $posOne = 0;
+    $posTwo = 0;
+    for($i = 0; $i < $length; $i++) {
+
+      if($posOne < sizeof($arrayOne) && $posTwo < sizeof($arrayTwo) &&
+        $arrayOne[$posOne]->created > $arrayTwo[$posTwo]->created) {
+        array_push($result, $arrayOne[$posOne++]);
+      }
+      else if($posTwo < sizeof($arrayTwo)) {
+        array_push($result, $arrayTwo[$posTwo++]);
+      }
+      else {
+        array_push($result, $arrayOne[$posOne++]);
+      }
+    }
+    return $result;
+  }
+
+  /*
+  get all survey responses
+  */
+  function getSurveyResponses() {
+
+    $this->db->select("*")->from("survey_list");
+    $surveys = $this->db->get()->result();
+
+    $surveyResponses = array();
+    foreach($surveys as $survey) {
+      $this->db->select("*")->from($survey->prefix . "_responses")->order_by("created", "desc");
+      $responses = $this->db->get()->result();
+
+      // add the survey data to each response
+      foreach($responses as $response) {
+        $response->survey_title = $survey->title;
+        $response->survey_slug = $survey->slug;
+        $this->db->select("email")->from("survey_users")->where("id", $response->user_id);
+        $response->email = $this->db->get()->row()->email;
+      }
+      $surveyResponses = $this->mergeByCreateProperty($surveyResponses, $responses);
+    }
+
+    return $surveyResponses;
+  }
+
+  /*
   get all survey data for the provided survey prefix
   param - surveyPrefix of table - example 's1'
   return - null if invalid survey prefix or all question 
@@ -138,7 +192,7 @@ class Survey_Model extends CI_Model {
   private function submitData($surveyPrefix, $responses) {
 
     // check if user exists
-    $this->db->select("*")->from($surveyPrefix . "_users")->where("email", $responses["email"]);
+    $this->db->select("*")->from("survey_users")->where("email", $responses["email"]);
     $emailQuery = $this->db->get();
     $userId = 0;
     if($emailQuery->num_rows() > 0) {
@@ -149,10 +203,10 @@ class Survey_Model extends CI_Model {
     else {
 
       // add user
-      $this->db->insert($surveyPrefix . "_users", array("email" => $responses["email"]));
+      $this->db->insert("survey_users", array("email" => $responses["email"]));
 
       // get user's id
-      $this->db->select("*")->from($surveyPrefix . "_users")->where("email", $responses["email"]);
+      $this->db->select("*")->from("survey_users")->where("email", $responses["email"]);
       $emailQuery = $this->db->get();
       $userId = $emailQuery->row()->id;
     }

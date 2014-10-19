@@ -80,6 +80,7 @@ class Admin extends CI_Controller {
 
     $data["user"] = array("email" => $this->session->userdata("email"));
     $data["active_surveys"] = $this->survey_model->getActiveSurveys();
+    $data["survey_responses"] = $this->survey_model->getSurveyResponses();
     $this->load->view('templates/admin/header');
     $this->load->view('templates/admin/nav', $data);
     $this->load->view('templates/admin/dashboard', $data);
