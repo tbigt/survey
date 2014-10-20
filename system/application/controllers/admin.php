@@ -17,10 +17,20 @@ class Admin extends CI_Controller {
     if(!$this->user_model->isLoggedIn()) {
       redirect("admin/login", "redirect");
     }
+  } 
+
+  private function alreadyLoggedIn() {
+
+    if($this->user_model->isLoggedIn()) {
+      redirect("admin/dashboard", "redirect");
+    }
   }
 
   public function login()
   {
+
+    $this->alreadyLoggedIn(); // check if the user is already logged in
+
     // check if an admin user exists
     if($this->user_model->getUserCount() == 0) {
        redirect("/admin/signup", "refresh");

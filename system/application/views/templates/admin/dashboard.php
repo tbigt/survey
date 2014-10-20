@@ -10,7 +10,7 @@
             <?php foreach($active_surveys as $survey): ?>
               <a href="<?php echo base_url() . "questions/" . $survey->slug; ?>" class="list-group-item">
                 <?php echo $survey->title; ?>
-                <span class="glyphicon glyphicon-chevron-right pull-right"></span>
+                <span class="glyphicon glyphicon-chevron-right pull-right "></span>
               </a>
             <?php endforeach; ?>
           </div>
@@ -31,7 +31,7 @@
               <a href="<?php echo base_url() . "admin/response/" . $response->survey_slug . "/" . $response->id; ?>" class="list-group-item">
                 <?php echo $response->survey_title; ?> Response
                 <i class="text-muted"> <?php echo $response->email; ?></i>
-                <span class="pull-right">
+                <span class="pull-right display-block-sm">
                   <span class="text-muted"> <?php echo date("F jS, Y ", strtotime($response->created)); ?></span>
                   <span class="glyphicon glyphicon-chevron-right"></span>
                 </span>

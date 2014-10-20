@@ -1,7 +1,7 @@
 		<footer>
       <div class="container">
         <p class="text-muted">
-          Footer Content
+          <?php echo getFooterContent(); ?>
         </p>
       </div>
 		</footer>

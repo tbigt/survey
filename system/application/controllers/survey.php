@@ -11,7 +11,7 @@ class Survey extends CI_Controller {
 
   public function index()
   {
-
+    echo getNavBrand();
     $data["active_surveys"] = $this->survey_model->getActiveSurveys();
     $this->load->view('templates/survey/header');
     $this->load->view('templates/survey/nav');

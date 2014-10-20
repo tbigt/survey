@@ -7,7 +7,7 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="#">Project Name</a>
+      <?php echo getNavBrand("admin/dashboard"); ?>
       <p class="navbar-text">Signed in as <?php echo $user["email"]; ?></p>
     </div>
 

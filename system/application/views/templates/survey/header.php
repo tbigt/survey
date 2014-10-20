@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>
-      <?php echo ((isset($survey_title)) ? $survey_title : "Untitled" ); ?>
+      <?php echo ((isset($survey_title)) ? $survey_title : getDefaultTitle() ); ?>
     </title>
     <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>assets/css/bootstrap.min.css"/>
     <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>assets/css/bootflat.min.css"/>

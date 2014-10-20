@@ -27,6 +27,13 @@ label small {
 .radio label {
   padding-left: 20px;
 }
+#logo {
+  padding: 5px;
+  height: 40px;
+}
+#logo img {
+  height: 40px;
+}
 footer {
   padding: 20px 0;
   background-color: #333;
@@ -40,7 +47,7 @@ footer p {
   line-height: 20px;
 }
 .bg-full {
-  background-repeat: no-repeat 
+  background-repeat: no-repeat;
   background-position: center center;
   background-size: cover;
   background-color: transparent;
@@ -50,8 +57,8 @@ footer p {
   right: 0;
   left: 0;
 }
-.bg-full .bg-1 {
-  background: url("../images/general/cliche_stock_photo.jpg");
+.bg-full.bg-1 {
+  background-image: url("../images/general/cliche_stock_photo.jpg");
 }
 .login-pane {
   margin-top: 100px;
@@ -61,4 +68,12 @@ footer p {
 }
 .survey-form {
   margin: 20px 0;
+}
+
+@media only screen and (max-width : 520px) {
+
+  .display-block-sm {
+    display: block !important;
+    float: none !important;
+  }
 }

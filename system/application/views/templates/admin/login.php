@@ -16,7 +16,7 @@
             <span class="glyphicon glyphicon-user"></span>
             Login
           </h4>
-          <form role="form" method="post" action="login">
+          <form role="form" method="post" action="<?php echo base_url(); ?>admin/login">
             <div class="form-group">
               <label for="email">Email address</label>
               <input type="email" class="form-control" id="email" placeholder="Enter email" name="login-email" value="<?php echo ((isset($_POST["login-email"])) ? $_POST["login-email"] : ""); ?>">
@@ -26,7 +26,7 @@
               <input type="password" class="form-control" id="password" placeholder="Password" name="login-password">
             </div>
             <button type="submit" class="btn btn-default" value="login-submit">
-              Submit
+              Log in
             </button>
           </form>
         </div>

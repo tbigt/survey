@@ -26,7 +26,7 @@
               <input type="password" class="form-control" id="password" placeholder="Password" name="signup-password">
             </div>
             <button type="submit" class="btn btn-default" value="signup-submit">
-              Submit
+              Create User
             </button>
           </form>
         </div>
