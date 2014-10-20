@@ -6,18 +6,20 @@ if ( ! function_exists('getNavBrand'))
     {
         $CI =& get_instance();
         $CI->load->config("site");
-        if(!empty($CI->config->item("logo_url"))) {
+        $logo_url = $CI->config->item("logo_url");
+        $logo_text = $CI->config->item("logo_text");
+        if(!empty($logo_url)) {
           return "<a class='navbar-brand' id='logo' href=" . base_url() . $url . ">
-                    <img src='" . $CI->config->item("logo_url") . "'/>
+                    <img src='" . $logo_url . "'/>
                   </a>";
         }
-        elseif(!empty($CI->config->item("logo_text"))) {
+        elseif(!empty($logo_text)) {
           return "<a class='navbar-brand' href=" . base_url() . $url . ">"
-                   . $CI->config->item("logo_text") . 
+                   . $logo_text . 
                   "</a>";
         }
         else {
-          return "<a class='navbar-brand' href=" . base_url() . $url . ">Untitled</a>";;
+          return "<a class='navbar-brand' href=" . base_url() . $url . ">Untitled</a>";
         }
     }   
 }
@@ -28,8 +30,9 @@ if ( ! function_exists('getFooterContent'))
     {
         $CI =& get_instance();
         $CI->load->config("site");
-        if(!empty($CI->config->item("footer_text"))) {
-          return $CI->config->item("footer_text");
+        $footer_text = $CI->config->item("footer_text");
+        if(!empty($footer_text)) {
+          return $footer_text;
         }
         else {
           return "";
@@ -43,11 +46,12 @@ if ( ! function_exists('getDefaultTitle'))
     {
         $CI =& get_instance();
         $CI->load->config("site");
-        if(!empty($CI->config->item("default_title"))) {
-          return $CI->config->item("default_title");
+        $default_title = $CI->config->item("default_title");
+        if(!empty($default_title)) {
+          return $default_title;
         }
         else {
-          return "";
+          return "Untitled";
         }
     }   
 }

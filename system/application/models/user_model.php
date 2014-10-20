@@ -13,7 +13,7 @@ class User_model extends CI_Model {
 
     $errors = array();
     // validate email & password
-    if(isset($_POST["login-password"]) && !empty(isset($_POST["login-password"])) 
+    if(isset($_POST["login-password"]) && !empty($_POST["login-password"])
       && isset($_POST["login-email"]) && !empty($_POST["login-email"])) {
 
       $email = $_POST["login-email"];
@@ -71,7 +71,7 @@ class User_model extends CI_Model {
 
     $errors = array();
     // validate email & password
-    if(isset($_POST["signup-password"]) && !empty(isset($_POST["signup-password"])) 
+    if(isset($_POST["signup-password"]) && !empty($_POST["signup-password"])
       && isset($_POST["signup-email"]) && !empty($_POST["signup-email"])) {
 
       $email = $_POST["signup-email"];

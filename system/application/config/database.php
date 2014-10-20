@@ -44,25 +44,50 @@
 | The $active_record variables lets you determine whether or not to load
 | the active record class
 */
+$whitelist = array(
+  '127.0.0.1',
+  '::1'
+);
 
-$active_group = 'default';
+if(in_array($_SERVER['REMOTE_ADDR'], $whitelist)){
+  $active_group = 'local';
+}
+else {
+  $active_group = 'dev';
+}
 $active_record = TRUE;
 
-$db['default']['hostname'] = 'localhost';
-$db['default']['username'] = 'root'; // change to your MySQL username
-$db['default']['password'] = 'root'; // change to your MySQL user's password
-$db['default']['database'] = 'survey';
-$db['default']['dbdriver'] = 'mysqli';
-$db['default']['dbprefix'] = '';
-$db['default']['pconnect'] = TRUE;
-$db['default']['db_debug'] = TRUE;
-$db['default']['cache_on'] = FALSE;
-$db['default']['cachedir'] = '';
-$db['default']['char_set'] = 'utf8';
-$db['default']['dbcollat'] = 'utf8_general_ci';
-$db['default']['swap_pre'] = '';
-$db['default']['autoinit'] = TRUE;
-$db['default']['stricton'] = FALSE;
+$db['local']['hostname'] = 'localhost';
+$db['local']['username'] = 'root'; // change to your MySQL username
+$db['local']['password'] = ''; // change to your MySQL user's password
+$db['local']['database'] = 'survey';
+$db['local']['dbdriver'] = 'mysqli';
+$db['local']['dbprefix'] = '';
+$db['local']['pconnect'] = TRUE;
+$db['local']['db_debug'] = TRUE;
+$db['local']['cache_on'] = FALSE;
+$db['local']['cachedir'] = '';
+$db['local']['char_set'] = 'utf8';
+$db['local']['dbcollat'] = 'utf8_general_ci';
+$db['local']['swap_pre'] = '';
+$db['local']['autoinit'] = TRUE;
+$db['local']['stricton'] = FALSE;
+
+$db['dev']['hostname'] = 'localhost';
+$db['dev']['username'] = 'root'; // change to your MySQL username
+$db['dev']['password'] = ''; // change to your MySQL user's password
+$db['dev']['database'] = 'survey';
+$db['dev']['dbdriver'] = 'mysqli';
+$db['dev']['dbprefix'] = '';
+$db['dev']['pconnect'] = TRUE;
+$db['dev']['db_debug'] = TRUE;
+$db['dev']['cache_on'] = FALSE;
+$db['dev']['cachedir'] = '';
+$db['dev']['char_set'] = 'utf8';
+$db['dev']['dbcollat'] = 'utf8_general_ci';
+$db['dev']['swap_pre'] = '';
+$db['dev']['autoinit'] = TRUE;
+$db['dev']['stricton'] = FALSE;
 
 
 /* End of file database.php */
