@@ -61,8 +61,10 @@
               <?php endif; ?>
               <?php if($question->question_type == 1): ?>
                 <div class="form-group">
-                  <label for="question_<?php echo $question->id; ?>">
-                    <?php echo $question->question_text . (($question->required) ? " <small>(Required)</small>" : ""); ?>
+                  <label>
+                    <?php echo $question->question_text . " <small>" .
+                      ((!empty($question->helper_text)) ? $question->helper_text : "") .
+                      (($question->required) ? " (Required) " : "") . "</small>"; ?>
                   </label>
                   <input 
                     type="text" 
@@ -75,8 +77,10 @@
               <?php endif; ?>
               <?php if($question->question_type == 2): ?>
                 <div class="form-group">
-                  <label for="question_<?php echo $question->id; ?>">
-                    <?php echo $question->question_text . (($question->required) ? " <small>(Required)</small>" : ""); ?>
+                  <label>
+                    <?php echo $question->question_text . " <small>" .
+                      ((!empty($question->helper_text)) ? $question->helper_text : "") .
+                      (($question->required) ? " (Required) " : "") . "</small>"; ?>
                   </label>
                   <textarea 
                     class="form-control"

@@ -10,7 +10,7 @@ if ( ! function_exists('getNavBrand'))
         $logo_text = $CI->config->item("logo_text");
         if(!empty($logo_url)) {
           return "<a class='navbar-brand' id='logo' href=" . base_url() . $url . ">
-                    <img src='" . $logo_url . "'/>
+                    <img src='" . base_url() . "assets/images/general/" . $logo_url . "'/>
                   </a>";
         }
         elseif(!empty($logo_text)) {
